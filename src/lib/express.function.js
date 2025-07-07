@@ -1,7 +1,8 @@
 function returnResponse(res, status, message, error) {
-    return res.status(status).json({
-        status,
-        message,
+    const safeStatus = typeof status === 'number' ? status : 500;
+    return res.status(safeStatus).json({
+        status: safeStatus,
+        message: message || 'Internal Server Error',
         error,
     });
 }
