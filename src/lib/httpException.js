@@ -9,12 +9,15 @@ const errors = {
     UPLOAD_ERROR: 'UPLOAD_ERROR',
 };
 
-class HttpException {
-    constructor(status, message, error, body) {
-        this.status = status;
-        this.message = message || '';
-        this.error = error;
-    }
+class HttpException extends Error {
+  constructor(status, message = '', error = null, body = null) {
+    super(message);
+    this.status = status;
+    this.message = message;
+    this.error = error;
+    this.body = body;
+    Error.captureStackTrace(this, this.constructor);
+  }
 }
 
 module.exports = {
