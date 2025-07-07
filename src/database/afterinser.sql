@@ -1,2 +1,2 @@
 ALTER TABLE users 
-ALTER COLUMN user_img DROP NOT NULL
+ALTER COLUMN user_img TYPE text;

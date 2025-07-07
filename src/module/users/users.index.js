@@ -11,4 +11,11 @@ express.get(
     UsersCtrl.getMeByToken
 );
 
+express.patch(
+    '/api/users/update', 
+    validationMiddleware(UsersDto.updateUsersDto, 'body'),
+    authorizationMiddleware,
+    UsersCtrl.updateUser
+);
+
 module.exports = express;

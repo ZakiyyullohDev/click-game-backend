@@ -25,9 +25,9 @@ async function app(routes) {
     function initMiddlewares() {
         app.use(logger);
         app.use(cors(CORS_OPTIONS));
+        app.use(expressFileupload());
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
-        app.use(expressFileupload());
     }
 
     function initCronjobs() {
