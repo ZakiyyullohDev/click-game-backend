@@ -40,6 +40,14 @@ const AuthModel = {
         `;
         
         const createUser = await uniqRow(createUserQuery, user_email, user_password, user_phone_number, user_gender, user_birth_date);
+
+        const createPlayerQuery = `
+            INSERT INTO 
+                players (user_id) 
+            VALUES ( $1 ) RETURNING *
+        `;
+        
+        const createPlayer = await uniqRow(createPlayerQuery, createUser.rows[0].user_id);
         
         return {
             status: 201,
