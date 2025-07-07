@@ -1,11 +1,11 @@
-const allowlist = process.env.ORIGIN ?? eval(process.env.ORIGIN);
+const allowlist = process.env.ORIGIN === '*' ? '*' : process.env.ORIGIN?.split(',') || [];
 
 const CORS_OPTIONS = {
     origin: function (origin, callback) {
         let corsOptions;
-        if (allowlist == '*') {
+        if (allowlist === '*') {
             corsOptions = true;
-        } else if (allowlist.indexOf(origin) !== -1) {
+        } else if (!origin || allowlist.includes(origin)) {
             corsOptions = true;
         } else {
             corsOptions = false;
