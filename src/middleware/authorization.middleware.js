@@ -5,7 +5,7 @@ const { uniqRow } = require('../lib/pg');
 async function authorizationMiddleware(req, res, next) {
     try {
         const authorization = req.headers.authorization;
-
+        
         if (!req.headers || !authorization) {
             return res.status(401).json({
                 status: 401,
@@ -13,9 +13,9 @@ async function authorizationMiddleware(req, res, next) {
                 message: 'header da authorization majburiy',
             });
         }
-
+        
         const token = await verifyJwtToken(authorization);
-
+        
         if (!token || (token.status && token.status == 402)) {
             return res.status(401).json({
                 status: 401,
@@ -23,7 +23,7 @@ async function authorizationMiddleware(req, res, next) {
                 message: `Authorization da hatolik`,
             });
         }
-
+        
         const query = `
         select
         user_id
@@ -31,16 +31,14 @@ async function authorizationMiddleware(req, res, next) {
         where user_id = $1
         `;
         const user = await uniqRow(query, token.id);
-        if (!user.rows.length) {
-            console.log('asdasd query');
-            
+        if (!user.rows) {            
             return res.status(401).json({
                 status: 401,
                 error: error.AUTHORIZATION_ERROR,
                 message: `Authorization da hatolik`,
             });
         }
-
+        
         next();
     } catch (error) {}
 }

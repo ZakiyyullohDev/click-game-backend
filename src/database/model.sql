@@ -12,7 +12,7 @@ create table users(
     user_username varchar(64) unique,
     user_password varchar(64),
     user_phone_number varchar(12) not null,
-    user_img varchar(64) not null,
+    user_img varchar(64),
     user_delete boolean default false,
     user_gender boolean not null,
     user_birth_date varchar(10) not null,
