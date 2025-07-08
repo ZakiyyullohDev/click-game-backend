@@ -7,7 +7,7 @@ const domain = process.env.DOMAIN;
 
 const AuthModel = {
     authRegister: async function (body) {
-        const { user_email, user_password, user_phone_number, user_gender, user_birth_date } = body;
+        const { user_email, user_password, user_username, user_phone_number, user_gender, user_birth_date } = body;
         
         const emailCheckQuery = `
             SELECT 
@@ -19,6 +19,18 @@ const AuthModel = {
         const checkEmail = await uniqRow(emailCheckQuery, user_email);
         if (checkEmail.rows[0]) {
             throw new HttpException(409, 'user_email already exists', error.USER_EMAIL_ALREADY_EXISTS);
+        }
+        
+        const userNameCheckQuery = `
+            SELECT 
+                user_id,
+                user_username
+            FROM users WHERE user_username = $1
+        `;
+        
+        const checkUserName = await uniqRow(userNameCheckQuery, user_username);
+        if (checkUserName.rows[0]) {
+            throw new HttpException(409, 'user_username already exists', error.USER_USERNAME_ALREADY_EXISTS);
         }
         
         const phoneNumberCheckQuery = `
